@@ -12,7 +12,7 @@
 #include "UsefulAtriStationEvent.h"
 #include "UsefulIcrrStationEvent.h"
 #include "FFTtools.h"
-
+// AS Filters headers
 #include "loadBar.h"
 #include "PedestalFinder.h"
 #include "HitFilter.h"
@@ -28,7 +28,7 @@ double timeSeqThresh = 1.5;
 double recoAngleThresh = 38.5;
 
 // Main method
-void filterReal(char *filename){
+void filterReal(char *filename, char *outputDirectory){
 
   RawAtriStationEvent *rawAtriEvtPtr=0;
 
@@ -44,10 +44,6 @@ void filterReal(char *filename){
   vector< vector<double> > antLocations;
   double Qarray[5];
 
-  TFile *outFilteredFile = new TFile("filteredEvents.root","recreate");
-  TTree *outFilteredTree = new TTree("eventTree","eventTree");
-  outFilteredTree->Branch("event",&rawAtriEvtPtr);
-
   TFile *f = new TFile(filename);
   HF->ScanAtriFileForRMS(f);
   HF->SetRMSMultiplier(2.05);
@@ -59,6 +55,10 @@ void filterReal(char *filename){
 
   stationID = rawAtriEvtPtr->getStationId();
   pedestalFilename = findPedestalFile(stationID,runNum);
+
+  TFile *outFilteredFile = new TFile(Form("%s/filteredEvents-ARA0%i-%i.root",outputDirectory,stationID,runNum),"recreate");
+  TTree *outFilteredTree = new TTree("eventTree","eventTree");
+  outFilteredTree->Branch("event",&rawAtriEvtPtr);
 
   AraEventCalibrator *araEventCalibrator = AraEventCalibrator::Instance();
   araEventCalibrator->loadAtriCalib(stationID);

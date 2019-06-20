@@ -5,8 +5,8 @@
   gSystem->AddIncludePath("-I$ARA_UTIL_INSTALL_DIR/include/");
   // Load the AraEvent library
   gSystem->Load("$ARA_UTIL_INSTALL_DIR/lib/libAraEvent.so");
-
-  gSystem->AddIncludePath("-I/home/aschultz/Analysis/filters/");
-  gSystem->Load("/home/aschultz/Analysis/filters/libASFilters.so");
+  // Add filter includes and load ASFilters shared library
+  gSystem->AddIncludePath("-I$AS_FILTERS/filters/");
+  gSystem->Load("$AS_FILTERS/filters/libASFilters.so");
 
 }
