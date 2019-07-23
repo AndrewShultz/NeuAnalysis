@@ -41,6 +41,7 @@ void HitFilter::ScanAtriFileForRMS(TFile *f) {
   nChannels = antennaInfo->getNumAntennasByPol(AraAntPol::kVertical)+antennaInfo->getNumAntennasByPol(AraAntPol::kHorizontal);
 
   noiseRMS.resize(nChannels);
+  for(int ichl=0; ichl<nChannels; ichl++) noiseRMS[ichl] = 0.0;
 
   for(int j=0; j<nevt; j++) {
 
